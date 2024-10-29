@@ -45,7 +45,7 @@ function get_log_file() {
 
 	local LOG_FMT=$(jq -c -r ".main.log.file_format" "$CONF_FILE")
 	local LOG_PFX=$(jq -c -r ".main.log.file_prefix" "$CONF_FILE")
-	local LOG_SFX=$(jq -c -r ".main.log.file_suffix" "$CONF_FILE")
+	local LOG_SFX=$(strip_leading_dot $(jq -c -r ".main.log.file_suffix" "$CONF_FILE"))
 	LOG_DIR=$(strip_trailing_slash $(jq -c -r ".main.log.directory" "$CONF_FILE"))
 	LOG_NAME=${LOG_PFX}-$(date +"$LOG_FMT").${LOG_SFX}
 	LOG_FILE="$LOG_DIR/$LOG_NAME"
@@ -206,7 +206,7 @@ function tar_it() {
 		local BACKUP_FILE_OWNER=$(echo $i | jq -c -r ".owner")
 		local BACKUP_FILE_GROUP=$(echo $i | jq -c -r ".group")
 		local TAR_FMT=$(echo $i | jq -c -r ".file_format")
-		local TAR_SFX=$(echo $i | jq -c -r ".file_suffix")
+		local TAR_SFX=$(strip_leading_dot $(echo $i | jq -c -r ".file_suffix"))
 		local TAR_KEEP=$(echo $i | jq -c -r ".keep")
 		local TAR_NAME=$TARGET-$(date +"$TAR_FMT").$TAR_SFX
 		local TAR_FILE=$BACKUP_DIR/$TAR_NAME
