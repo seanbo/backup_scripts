@@ -234,7 +234,7 @@ function tar_it() {
 
 		TAR_FROM_FILE=$(echo $i | jq -c -r '.exclude.from_file')
 		if [[ ! -z "$TAR_FROM_FILE" && -f "$CONF_DIR/$TAR_FROM_FILE" ]]; then
-			TAR_EXCL+=' --exclude-from='$CONF_DIR/$TAR_FROM_FILE' '
+			TAR_EXCL+=' --exclude-from='$TAR_FROM_FILE' '
 		fi
 
 		check_backup_dir
