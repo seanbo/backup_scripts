@@ -201,6 +201,7 @@ function tar_it() {
 	local FLAG=0
 
     jq -c ".targets[] | select(.name==\"$TARG\")" "$CONF_FILE" | while read i; do
+
 		local TARGET=$(echo $i | jq -c -r ".name")
 		local TARGET_DIR=$(echo $i | jq -c -r ".directory")
 		local BACKUP_FILE_OWNER=$(echo $i | jq -c -r ".owner")
@@ -221,11 +222,20 @@ function tar_it() {
 
 		TAR_EXCL+=$(echo $i | jq -c -r '.exclude.folders[]?|.path' | while read EXCL_DIR; do
 			if [[ ${EXCL_DIR:0:1} == "/" ]] ; then
-            	echo ' --exclude='$EXCL_DIR' '
+				if [[ -d "$EXCL_DIR" ]]; then
+           			echo ' --exclude='$EXCL_DIR' '
+				fi
 			else
-            	echo $TAR_EXCL' --exclude='$TARGET_DIR/$EXCL_DIR' '
+				if [[ -d "$TARGET_DIR/$EXCL_DIR" ]]; then
+           			echo ' --exclude='$TARGET_DIR/$EXCL_DIR' '
+				fi
 			fi
 		done)
+
+		TAR_FROM_FILE=$(echo $i | jq -c -r '.exclude.from_file')
+		if [[ ! -z "$TAR_FROM_FILE" && -f "$CONF_DIR/$TAR_FROM_FILE" ]]; then
+			TAR_EXCL+=' --exclude-from='$CONF_DIR/$TAR_FROM_FILE' '
+		fi
 
 		check_backup_dir
 		if [[ "$?" -ne 0 && "$FLAG" -eq 0 ]]; then
@@ -239,7 +249,11 @@ function tar_it() {
 		purge_file "$BACKUP_DIR" "$TARGET" "$TAR_KEEP"
 
 		update_task "Building tar file" "$TAR_FILE"
-		tar -czv -f $TAR_FILE $TAR_EXCL $TARGET_DIR
+		update_task "Found Exclusions" "$TAR_EXCL"
+		TAR_COMMAND="tar -czv -f $TAR_FILE $TAR_EXCL $TARGET_DIR"
+		update_task "Executing tar command" "$TAR_COMMAND"
+		sleep 5
+		$($TAR_COMMAND)
 
 		if [[ -f "$TAR_FILE" ]]; then
 			logger "Setting target file permissions"
