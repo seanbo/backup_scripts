@@ -43,6 +43,7 @@ Targets have 8 options. 7 are required, the 8th, "exclude" is optional.
 ### Excludes
 The exclude node will include a folders or files node (not currently implemented)
 -node title "some folder name" will have a "path" identifier indicating the subdirectory path underneath the "directory" for the target.  This entire folder will be excluded.  See sample below for excclusions for /home/seanbo/backups and /home/seanbo/foo
+-from_file : specify path to tar style exclude pattern file
 
 ## Sample
 ```json
@@ -88,6 +89,7 @@ The exclude node will include a folders or files node (not currently implemented
             "group": "groupid",
             "keep": "32",
             "exclude": {
+		"from_file": "/home/seanbo/backup.exclude"
                 "folders": {
                     "backups": {
                         "path": "backups"
