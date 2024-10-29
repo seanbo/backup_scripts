@@ -103,3 +103,7 @@ The exclude node will include a folders or files node (not currently implemented
     }
 }
 ```
+
+#Copyright
+##Licensed under the LGPL3
+Please see LICENSE.txt or COPYING.txt for license terms
