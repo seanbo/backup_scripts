@@ -1,0 +1,5 @@
+Subject: $SUBJECT
+To: $RECIPIENT
+
+Below, you will find the log output for the most recent
+backup. You can find the log at $LOGFILE
