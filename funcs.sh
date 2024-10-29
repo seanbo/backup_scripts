@@ -22,6 +22,10 @@ function strip_trailing_slash() {
 	echo ${@%/}
 }
 
+function strip_leading_dot() {
+	echo $(echo "$@" | sed 's/^\.//g')
+}
+
 function get_value() {
 	KEY=$1
 
