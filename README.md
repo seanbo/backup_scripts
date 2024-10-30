@@ -16,34 +16,34 @@ The configuration, currently, only supports one configuration.  Please see "main
 ## "main" log definition
 There are five options for the "log" node
 - directory : This is the path to where the logs will be stored locally
--file_prefix : prefix for the log file's name
--file_format : This is added after "$file_prefix-", the sample provides a date format
--file_suffix : the files extension with no dot
--keep : Number of log file versions to keep stored locally
+- file_prefix : prefix for the log file's name
+- file_format : This is added after "$file_prefix-", the sample provides a date format
+- file_suffix : the files extension with no dot
+- keep : Number of log file versions to keep stored locally
 
 ## "main" backup definition
 There are two options for the "backup" node
--local_directory : Path to local storage for tar files
--shared_directory : Path to the SAMBA share for remote storage
+- local_directory : Path to local storage for tar files
+- shared_directory : Path to the SAMBA share for remote storage
 
 ## Targets
 This is where you configure individual backup sets.  The same demonstrates backing up /boot, /etc, and a home folder.
 
 ## target definition
 Targets have 8 options. 7 are required, the 8th, "exclude" is optional.
--name : name of the target, this is used as the prefix for tar files.
--directory : Path of the folder to backup
--file_format : This is added after "$file_prefix-", the sample provides a date format
--file_suffix : the files extension with no dot
--owner : After the backup is complete, the file's ownership will be changed to the specified user
--group : After the backup is complete, the file's ownership will be changed to the specified group
--keep : Number of tar file versions to keep stored locally
--exclude : This is another node used to exclude files or directories. See below
+- name : name of the target, this is used as the prefix for tar files.
+- directory : Path of the folder to backup
+- file_format : This is added after "$file_prefix-", the sample provides a date format
+- file_suffix : the files extension with no dot
+- owner : After the backup is complete, the file's ownership will be changed to the specified user
+- group : After the backup is complete, the file's ownership will be changed to the specified group
+- keep : Number of tar file versions to keep stored locally
+- exclude : This is another node used to exclude files or directories. See below
 
 ### Excludes
 The exclude node will include a folders or files node (not currently implemented)
--node title "some folder name" will have a "path" identifier indicating the subdirectory path underneath the "directory" for the target.  This entire folder will be excluded.  See sample below for excclusions for /home/seanbo/backups and /home/seanbo/foo
--from_file : specify absolute path to tar style exclude pattern file
+- node title "some folder name" will have a "path" identifier indicating the subdirectory path underneath the "directory" for the target.  This entire folder will be excluded.  See sample below for excclusions for /home/seanbo/backups and /home/seanbo/foo
+- from_file : specify absolute path to tar style exclude pattern file
 
 ## Sample
 ```json
@@ -105,5 +105,5 @@ The exclude node will include a folders or files node (not currently implemented
 ```
 
 # Copyright
-## Licensed under the LGPL3
+## Licensed under the LGPL
 Please see LICENSE.txt or COPYING.txt for license terms
